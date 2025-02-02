@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Robux</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Colors */
+        :root {
+            --roblox-light-gray: #f2f2f2;
+            --roblox-dark-gray: #2d2d2d;
+            --roblox-light-blue: #e1e1e1;
+            --roblox-dark-blue: #2b2b2b;
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #f2f2f2;
+            color: #2b2b2b;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--roblox-dark-gray);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            width: 29px;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 20px;
+            font-size: 16px;
+        }
+
+        .navbar-links span {
+            color: white;
+        }
+
+        /* Get Robux Section */
+        .get-robux {
+            background-image: url('https://www.robloxforum.com/attachments/bandicam-2019-11-02-20-20-32-653-jpg.17412/'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 966px;
+            height: 197px;
+            margin: 30px auto;
+        }
+
+        /* Main Container */
+        .container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 350px;
+            text-align: center;
+            margin: 30px auto;
+        }
+
+        .username-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            background-color: #f7f7f7;
+            box-sizing: border-box;
+        }
+
+        .header {
+            color: var(--roblox-dark-gray);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: var(--roblox-dark-gray);
+            margin-bottom: 20px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input, select {
+            background-color: #f7f7f7;
+        }
+
+        button {
+            background-color: var(--roblox-dark-gray);
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4a4a4a;
+        }
+
+        .offer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .offer-link {
+            padding: 15px;
+            margin: 5px 0;
+            background-color: var(--roblox-dark-gray);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .offer-link:hover {
+            background-color: #4a4a4a;
+        }
+
+        .robux-amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--roblox-dark-gray);
+        }
+
+        .robux-selection {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-evenly;
+        }
+
+        /* Robux Option Styling */
+        .robux-option {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f7f7f7;
+            width: 150px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .robux-option:hover {
+            background-color: #e1e1e1;
+        }
+
+        .robux-option.selected {
+            background-color: #2b2b2b;
+            color: white;
+        }
+
+        .robux-option.selected:hover {
+            background-color: #4a4a4a;
+        }
+
+        /* Price Styling with Strikethrough */
+        .robux-price {
+            font-size: 16px;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .robux-price.free {
+            text-decoration: none;
+            color: green;
+        }
+
+        .bottom-text {
+            font-size: 12px;
+            color: #6c6c6c;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-top: 1px solid #ccc;
+        }
+
+        .terms-text {
+            font-size: 12px;
+            color: #6c6c6c;
+            margin-top: 10px;
+        }
+
+        /* Waiting for Completion */
+        .waiting-message {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2b2b2b;
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .get-robux {
+                width: 100%;
+                height: 150px;
+                margin: 20px 0;
+            }
+
+            .navbar-links {
+                display: none;
+            }
+
+            .navbar-logo {
+                margin: 0 auto;
+            }
+
+            .robux-option {
+                width: 120px;
+                font-size: 16px;
+            }
+
+            .robux-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .offer-link {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .bottom-text {
+                font-size: 10px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-logo">
+            <img src="https://static.wikia.nocookie.net/robloxcities/images/d/d2/RobloxLogo.png/revision/latest/scale-to-width-down/1024?cb=20230125021936" alt="Roblox Logo">
+        </div>
+        <div class="navbar-links">
+            <span>Discover</span>
+            <span>Marketplace</span>
+            <span>Robux</span>
+        </div>
+    </div>
+
+    <!-- Get Robux Section -->
+    <div class="get-robux"></div>
+
+    <!-- Main Content -->
+    <div class="container" id="step-1">
+        <h2 class="header">Step 1: Roblox Username</h2>
+        <input type="text" id="username" class="username-input" placeholder="Enter your Roblox username" required>
+        <button onclick="goToStep2()">Next</button>
+        <p id="loading-message" style="display:none;">Verifying username...</p> <!-- Loading message -->
+
+        <!-- Added text -->
+        <p class="terms-text">By continuing, you agree to our <a href="#">Terms of Service</a>.</p>
+    </div>
+
+    <div class="container" id="step-2" style="display: none;">
+        <h2 class="header">Step 2: Select Robux Amount</h2>
+        <div class="robux-selection">
+            <div class="robux-option" onclick="selectRobuxAmount(this)" data-robux="500">
+                <div class="robux-price free">FREE</div>
+                500 Robux
+            </div>
+            <div class="robux-option" onclick="selectRobuxAmount(this)" data-robux="1000">
+                <div class="robux-price free">FREE</div>
+                1,000 Robux
+            </div>
+            <div class="robux-option" onclick="selectRobuxAmount(this)" data-robux="2000">
+                <div class="robux-price free">FREE</div>
+                2,000 Robux
+            </div>
+            <div class="robux-option" onclick="selectRobuxAmount(this)" data-robux="5250">
+                <div class="robux-price free">FREE</div>
+                5,250 Robux
+            </div>
+            <div class="robux-option" onclick="selectRobuxAmount(this)" data-robux="11000">
+                <div class="robux-price free">FREE</div>
+                11,000 Robux
+            </div>
+            <div class="robux-option" onclick="selectRobuxAmount(this)" data-robux="24000">
+                <div class="robux-price free">FREE</div>
+                24,000 Robux
+            </div>
+        </div>
+        <button onclick="goToStep3()">Next</button>
+    </div>
+
+    <div class="container" id="step-3" style="display: none;">
+        <h2 class="header">Step 3: Verification Required</h2>
+        <p class="robux-amount">You have selected: <span id="selected-robux">500</span> </p>
+        <p>To complete the process, choose one of the following surveys:</p>
+
+        <div class="offer-links">
+            <a href="https://unlockrwrd.com/QePvIae" class="offer-link" target="_blank" onclick="showWaitingMessage()">Enter an Amazon Giftcard Raffle</a>
+            <a href="https://unlockrwrd.com/JV1oI45In" class="offer-link" target="_blank" onclick="showWaitingMessage()">Complete the survey for a DoorDash giftcard</a>
+            <a href="https://unlockrwrd.com/1zjkfGeiB" class="offer-link" target="_blank" onclick="showWaitingMessage()">Complete the survey and win cash!</a>
+            <a href="https://unlockrwrd.com/aoNdCMq" class="offer-link" target="_blank" onclick="showWaitingMessage()">Fill out the survey to win a Best Buy giftcard</a>
+        </div>
+
+        <p class="waiting-message" id="waiting-message">Waiting for completion...</p>
+    </div>
+
+    <!-- Bottom Text -->
+    <div class="bottom-text">
+        When you buy Robux you receive only a limited, non-refundable, non-transferable, revocable license to use Robux, which has no value in real currency. By selecting the Premium subscription package, (1) you agree that you are over 18 and that you authorize us to charge your account every month until you cancel the subscription, and (2) you represent that you understand and agree to the Terms of Use, which includes an agreement to arbitrate any dispute between you and Roblox, and Privacy Policy. You can cancel at any time by clicking “Cancel subscription” on the billing tab of the setting page. If you cancel, you will still be charged for the current billing period. See Terms of Use for other limitations.
+    </div>
+
+    <script>
+        function goToStep2() {
+            var username = document.getElementById('username').value;
+            if (username === "") {
+                alert("Please enter your username.");
+                return;
+            }
+
+            // Show loading message and wait before switching to next step
+            document.getElementById('loading-message').style.display = 'block';
+            setTimeout(function() {
+                document.getElementById('step-1').style.display = 'none';
+                document.getElementById('step-2').style.display = 'block';
+                document.getElementById('loading-message').style.display = 'none'; // Hide loading message after transition
+            }, 2000); // Wait for 2 seconds to simulate verification
+        }
+
+        function goToStep3() {
+            var robuxAmount = document.querySelector('.robux-option.selected');
+            if (!robuxAmount) {
+                alert("Please select a Robux amount.");
+                return;
+            }
+            document.getElementById('step-2').style.display = 'none';
+            document.getElementById('step-3').style.display = 'block';
+
+            // Update the displayed Robux amount without showing "FREE"
+            var robuxValue = robuxAmount.getAttribute('data-robux');
+            document.getElementById('selected-robux').textContent = robuxValue + ' Robux';
+        }
+
+        function selectRobuxAmount(option) {
+            var selected = document.querySelector('.robux-option.selected');
+            if (selected) {
+                selected.classList.remove('selected');
+            }
+            option.classList.add('selected');
+        }
+
+        function showWaitingMessage() {
+            document.getElementById('waiting-message').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
